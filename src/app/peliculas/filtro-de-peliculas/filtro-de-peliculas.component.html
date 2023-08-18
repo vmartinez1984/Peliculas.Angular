@@ -1,0 +1,22 @@
+<h2>Búscar pelicular</h2>
+
+<form [formGroup]="formGroup">
+    <mat-form-field appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="titulo"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Género</mat-label>
+        <mat-select matInput formControlName="generoId">
+            <mat-option value="">Seleccione</mat-option>
+            <mat-option *ngFor="let genero of generos" [value]="genero.id">{{genero.nombre}}</mat-option>            
+        </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox formArrayName="proximosEstrenos">Próximos estrenos</mat-checkbox>
+
+    <mat-checkbox formArrayName="enCines">En cines</mat-checkbox>
+
+    <button mat-flat-button color="warn" (click)="limpiar()">Limpiar</button>
+</form>

@@ -1,0 +1,16 @@
+<div *ngIf="!listado">
+    aqui va el spinner
+</div>
+
+<div *ngIf="listado?.length === 0">
+    <span #vacio>
+        <ng-content select="[mensaje]"></ng-content>
+    </span>
+    <span *ngIf="!vacio.innerHTML.trim()">
+        <p>No hay elementos para mostrar</p>
+    </span>
+</div>
+
+<ng-container *ngIf="listado && listado.length > 0">
+    <ng-content select="[contenido]"></ng-content>
+</ng-container>

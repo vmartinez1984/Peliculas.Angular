@@ -1,0 +1,11 @@
+<form [formGroup]="formGroup" (submit)="guardar()">
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input formControlName="nombre" matInput/>
+        <mat-error *ngIf="formGroup.invalid">{{obtnerErrorDeCampoNombre()}}</mat-error>
+    </mat-form-field>
+    <div>
+        <button mat-flat-button color="primary">Guardar</button>
+        <a mat-stroked-button routerLink="/generos">Cancelar</a>
+    </div>
+</form>
