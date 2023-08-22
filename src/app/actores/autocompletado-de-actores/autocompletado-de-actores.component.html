@@ -1,0 +1,54 @@
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+        <mat-label>Actor</mat-label>
+        <input type="text" placeholder="Selecciona un actor" aria-label="Number" matInput [formControl]="myControl"
+            [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="opcionSeleccionada($event)">
+            <mat-option *ngFor="let actor of actores" [value]="actor">
+                <img [src]="actor.foto" />
+                {{actor.nombre}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>
+
+<table *ngIf="actoresSeleccionados.length > 0" mat-table [dataSource]="actoresSeleccionados" class="mat-elevation-z8" cdkDropList [cdkDropListData]="actoresSeleccionados" (cdkDropListDropped)="finalizarArrastre($event)">
+    <ng-container matColumnDef="imagen">
+        <th mat-header-cell *matHeaderCellDef=""></th>
+        <td mat-cell *matCellDef="let element">          
+            <img [src]="element.foto" />
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef=""></th>
+        <td mat-cell *matCellDef="let element">          
+            {{element.nombre}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="personaje">
+        <th mat-header-cell *matHeaderCellDef=""></th>
+        <td mat-cell *matCellDef="let element">          
+            <mat-form-field appearance="outline">
+                <mat-label>personaje</mat-label>
+                <input matInput [(ngModel)]="element.personaje"/>
+            </mat-form-field>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef=""></th>
+        <td mat-cell *matCellDef="let element">          
+            <mat-icon mat-list-icon (click)="eliminar(element)">
+                close
+            </mat-icon>
+        </td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: columnasAMostrar" cdkDrag [cdkDragData]="row"></tr>
+</table>
+<!-- 
+<ul>
+    <li *ngFor="let actor of actoresSeleccionados">{{actor.nombre}}</li>
+</ul> -->

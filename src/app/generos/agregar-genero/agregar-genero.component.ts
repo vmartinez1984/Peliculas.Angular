@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GeneroDtoIn } from 'src/app/interfaces/genero-dto-in';
+import { ServicioService } from 'src/app/servicios/servicio.service';
 
 @Component({
   selector: 'app-agregar-genero',
@@ -10,13 +10,21 @@ import { GeneroDtoIn } from 'src/app/interfaces/genero-dto-in';
 })
 export class AgregarGeneroComponent implements OnInit {
   
-  constructor(private router: Router   ) { }
+  constructor(
+    private router: Router,
+    private servicio: ServicioService
+  ) { }
 
   ngOnInit(): void {
   }
  
   guardar(genero: GeneroDtoIn) {
-    console.log(genero)
-    this.router.navigate(['/generos'])
+    //console.log(genero)
+    this.servicio.genero.agregar(genero).subscribe({
+      next:(data)=>{
+        console.log(data)
+        this.router.navigate(['/generos'])
+      }
+    })
   }
 }

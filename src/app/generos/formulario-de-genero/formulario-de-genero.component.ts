@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { GeneroDtoIn } from 'src/app/interfaces/genero-dto-in';
 
 @Component({
@@ -10,20 +9,26 @@ import { GeneroDtoIn } from 'src/app/interfaces/genero-dto-in';
 })
 export class FormularioDeGeneroComponent {
   formGroup: FormGroup
-  @Output() respuesta :EventEmitter<GeneroDtoIn> = new EventEmitter<GeneroDtoIn>();
-  @Input() entrada?: GeneroDtoIn
+
+  @Output() respuesta: EventEmitter<GeneroDtoIn> = new EventEmitter<GeneroDtoIn>();
+  @Input()  generoIn?: GeneroDtoIn
+
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder
   ) {
     this.formGroup = this.formBuilder.group({
       nombre: ['', { validators: [Validators.required, Validators.minLength(3)] }]
     })
+    console.log(this.generoIn)
+    if (this.generoIn) {
+      this.formGroup.patchValue({ nombre: this.generoIn.nombre })
+    }
   }
 
-  ngOnInit(): void {
-    if(this.entrada !== undefined){
-      this.formGroup.patchValue(this.entrada)
+  ngOnChanges(): void {
+    console.log(this.generoIn)
+    if (this.generoIn) {
+      this.formGroup.patchValue({ nombre: this.generoIn.nombre })
     }
   }
 
@@ -42,10 +47,11 @@ export class FormularioDeGeneroComponent {
 
   guardar() {
     //console.log(this.formGroup.valid)
-    if (this.formGroup.valid){
+    if (this.formGroup.valid) {
       //this.router.navigate(['/generos'])
       this.respuesta.emit(this.formGroup.value)
     }
 
   }
+
 }

@@ -14,9 +14,13 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-checkbox formArrayName="proximosEstrenos">Próximos estrenos</mat-checkbox>
-
-    <mat-checkbox formArrayName="enCines">En cines</mat-checkbox>
+    <div>
+        <mat-checkbox formControlName="proximosEstrenos">Próximos estrenos</mat-checkbox>
+        
+        <mat-checkbox formControlName="enCines">En cines</mat-checkbox>
+    </div>
 
     <button mat-flat-button color="warn" (click)="limpiar()">Limpiar</button>
 </form>
+<br/>
+<app-listado-de-peliculas [peliculas]="peliculas" />

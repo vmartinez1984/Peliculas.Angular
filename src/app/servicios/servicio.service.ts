@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GeneroService } from './genero-servicio.service';
+import { PeliculaService } from './pelicula.service';
+import { GeneroService } from './genero.service';
+import { CineService } from './cine.service';
+import { ActorService } from './actor.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +11,15 @@ import { GeneroService } from './genero-servicio.service';
 export class ServicioService {
 
   public genero: GeneroService
+  public peliculas: PeliculaService
+  public cine: CineService
+  public actor: ActorService
 
-  //constructor(private httpClient: HttpClient) {
-  constructor() {
-    this.genero = new GeneroService()
+  constructor(private httpClient: HttpClient) {
+  //constructor() {
+    this.genero = new GeneroService(this.httpClient)
+    this.peliculas = new PeliculaService()
+    this.cine = new CineService(this.httpClient)
+    this.actor = new ActorService(this.httpClient)
   }
 }

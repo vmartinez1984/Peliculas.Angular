@@ -1,1 +1,28 @@
-<p>formulario-actor works!</p>
+<form [formGroup]="formGroup" (submit)="guardar()">
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input formControlName="nombre" matInput />
+        <mat-error>El nombre es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Fecha de nacimiento</mat-label>
+        <input appearance="outline" matInput [matDatepicker]="picker" formControlName="fechaDeNacimiento">
+        <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <app-agregar-imagen [urlDeImagen]="entrada?.foto" (archivo)="agregarImagen($event)"/>
+
+    <app-input-markdown (textoEscrito)="textoMarkdown($event)"/>
+
+    <div>
+
+        <button mat-flat-button color="primary">
+            Guardar
+        </button>
+        
+        <a mat-stroked-button routerLink="/actores">Cancelar</a>
+    </div>
+</form>

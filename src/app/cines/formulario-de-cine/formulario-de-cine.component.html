@@ -1,0 +1,25 @@
+<form [formGroup]="formGroup" (submit)="guardar()">
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input formControlName="nombre" matInput maxlength="50" />
+        <mat-error *ngIf="formGroup.invalid">{{obtnerErrorDeCampoNombre()}}</mat-error>
+    </mat-form-field>
+
+    <div>
+
+        <app-map (respuesta)="colocarCoordenadas($event)" [coordenadasInput]="coordenadas"  />
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Latitud y Longitud</mat-label>
+            <input matInput  formControlName="latitudYLongitud"/>
+            <mat-error *ngIf="formGroup.invalid">
+                Seleccione el cine
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <button mat-flat-button color="primary">Guardar</button>
+        <a mat-stroked-button routerLink="/cines">Cancelar</a>
+    </div>
+</form>
