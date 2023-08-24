@@ -13,6 +13,8 @@ import { MatTableModule } from '@angular/material/table'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { DragDropModule } from '@angular/cdk/drag-drop'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatPaginatorModule } from '@angular/material/paginator'
 
 @NgModule({
   declarations: [],
@@ -32,7 +34,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
     MatTableModule,
     MatTabsModule,
     MatAutocompleteModule,
-    DragDropModule
+    DragDropModule,
+    MatProgressBarModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }

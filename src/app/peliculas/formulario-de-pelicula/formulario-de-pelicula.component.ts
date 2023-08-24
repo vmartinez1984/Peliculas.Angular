@@ -46,9 +46,9 @@ export class FormularioDePeliculaComponent implements OnInit {
   }
 
   obtenerGeneros() {
-    this.servicio.genero.obtenerTodos().subscribe({
+    this.servicio.genero.obtenerTodos(1,50).subscribe({
       next: (data) => {
-        this.generosNoSeleccionados = data.map(x => ({ llave: x.id, valor: x.nombre }))
+        //this.generosNoSeleccionados = data.map(x => ({ llave: x.id, valor: x.nombre }))
       }
     })
   }

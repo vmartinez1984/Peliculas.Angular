@@ -9,7 +9,7 @@ import { enviroment } from 'src/enviroments/enviroments';
 })
 export class GeneroService {
   private url = enviroment.urlApi + "Generos"
-  
+
   constructor(private httpClient: HttpClient) { }
   //constructor(){}
 
@@ -23,8 +23,14 @@ export class GeneroService {
   //   })
   // }
 
-  obtenerTodos(): Observable<GeneroDto[]> {
-    return this.httpClient.get<GeneroDto[]>(this.url)
+  obtenerTodos(pagina: number, cantidadDeRegistrosAMostrar: number): Observable<any> {  
+    return this.httpClient.get<GeneroDto[]>(this.url, {
+      observe: 'response',
+      params: {
+        Pagina: pagina.toString(),
+        RegistrosPorPagina: cantidadDeRegistrosAMostrar.toString()
+      }
+    })
   }
 
   agregar(genero: GeneroDtoIn): Observable<any> {
@@ -35,7 +41,7 @@ export class GeneroService {
     return this.httpClient.put<any>(this.url + "/" + id, genero)
   }
 
-  obtenerPorId(id:number):Observable<GeneroDto>{
+  obtenerPorId(id: number): Observable<GeneroDto> {
     return this.httpClient.get<GeneroDto>(this.url + "/" + id)
   }
 }

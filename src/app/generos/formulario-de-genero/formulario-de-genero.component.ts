@@ -12,6 +12,7 @@ export class FormularioDeGeneroComponent {
 
   @Output() respuesta: EventEmitter<GeneroDtoIn> = new EventEmitter<GeneroDtoIn>();
   @Input()  generoIn?: GeneroDtoIn
+  @Input() errores:string[]=[]
 
   constructor(
     private formBuilder: FormBuilder

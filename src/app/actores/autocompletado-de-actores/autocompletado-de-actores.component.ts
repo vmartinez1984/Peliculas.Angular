@@ -3,7 +3,6 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTable } from '@angular/material/table';
-import { Observable, map, startWith } from 'rxjs';
 import { ActorDto } from 'src/app/interfaces/actor-dto-in';
 import { ServicioService } from 'src/app/servicios/servicio.service';
 

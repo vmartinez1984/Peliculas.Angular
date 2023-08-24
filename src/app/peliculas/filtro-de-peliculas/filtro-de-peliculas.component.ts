@@ -58,7 +58,7 @@ export class FiltroDePeliculasComponent {
   }
 
   obtenerGeneros() {
-    this.servicio.genero.obtenerTodos().subscribe({
+    this.servicio.genero.obtenerTodos(1, 50).subscribe({
       next: (generos) => {
         //console.log(generos)
         this.generos = generos
