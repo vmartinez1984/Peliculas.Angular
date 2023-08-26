@@ -12,6 +12,7 @@ export class FormularioActorComponent implements OnInit {
 
   @Output() eventEmiiter: EventEmitter<ActorDtoIn> = new EventEmitter()
   @Input() entrada?: ActorDto
+  @Input() errores: string[] = []
 
   constructor(
     private formBuilder: FormBuilder

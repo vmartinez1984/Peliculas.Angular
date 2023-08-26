@@ -1,5 +1,44 @@
 <h2>Actores</h2>
 
-<button mat-flat-button routerLink="/actores/editar/25" color="warn">Editar</button>
+<mat-progress-bar mode="indeterminate" *ngIf="estaCargando"></mat-progress-bar>
+<app-listado-generico [listado]="actores">
+    <ng-container contenido>
 
-<button mat-flat-button routerLink="/actores/agregar" color="primary">Agregar</button>
+        <table mat-table [dataSource]="actores" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>
+                    <button mat-flat-button routerLink="/actores/agregar" color="primary">Agregar</button>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-flat-button routerLink="/actores/editar/{{element.id}}" color="warn">Editar</button>
+                    <button mat-flat-button
+                        [swal]="{
+                            title: 'Borrar', 
+                            text: '¿Desea borrar '+element.nombre+'?', 
+                            showCancelButton: true, 
+                            icon: 'error', 
+                            confirmButtonText:'Borrar', 
+                            cancelButtonText:'Cancelar'
+                        }"
+                        (confirm)="borrar(element)" color="default">Borrar</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons [length]="cantidadtotalderegistros"
+            [pageSize]="cantidadDeRegistrosAMostrar" (page)="actualizarPaginacion($event)" />
+    </ng-container>
+</app-listado-generico>

@@ -1,4 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { HttpResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -23,10 +24,10 @@ export class AutocompletadoDeActoresComponent {
   }
 
   obtenerActores() {
-    this.servicio.actor.obtenerTodos().subscribe({
-      next: (data) => {
-        this.actores = data
-      }
+    this.servicio.actor.obtenerTodos(1,50).subscribe({
+      next: (respuesta: HttpResponse<ActorDto[]>) => {
+        this.actores = respuesta.body == null ? [] : respuesta.body        
+      },
     })
   }
 

@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http'
 import { MarkdownModule } from 'ngx-markdown';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet'
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -76,7 +77,9 @@ import { MostrarErroresComponent } from './utilidades/mostrar-errores/mostrar-er
     MaterialModule,
     HttpClientModule, 
     MarkdownModule.forRoot(),
-    LeafletModule, FormsModule
+    FormsModule,
+    LeafletModule, 
+    SweetAlert2Module.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

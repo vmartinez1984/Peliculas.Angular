@@ -8,6 +8,9 @@ import { enviroment } from 'src/enviroments/enviroments';
   providedIn: 'root'
 })
 export class GeneroService {
+  borrar(id: number): Observable<any> {
+    return this.httpClient.delete(this.url + "/" + id)
+  }
   private url = enviroment.urlApi + "Generos"
 
   constructor(private httpClient: HttpClient) { }

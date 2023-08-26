@@ -1,7 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { GeneroDto } from 'src/app/interfaces/genero-dto-in';
 import { ServicioService } from 'src/app/servicios/servicio.service';
 
@@ -12,7 +11,7 @@ import { ServicioService } from 'src/app/servicios/servicio.service';
 })
 export class IndiceDeGenerosComponent {
   displayedColumns: string[] = ['id', 'nombre', 'acciones'];
-  dataSource = new MatTableDataSource<GeneroDto>()
+  //dataSource = new MatTableDataSource<GeneroDto>()
   generos: GeneroDto[] = []
   estaCargando = false
   cantidadtotalderegistros!: any
@@ -28,7 +27,7 @@ export class IndiceDeGenerosComponent {
     this.servicio.genero.obtenerTodos(pagina, cantidadDeRegistrosAMostrar).subscribe({
       next: (respuesta: HttpResponse<GeneroDto[]>) => {
         //console.log(generos)
-        this.dataSource.data = respuesta.body == null ? [] : respuesta.body
+        //this.dataSource.data = respuesta.body == null ? [] : respuesta.body
         this.generos = respuesta.body == null ? [] : respuesta.body
         //console.log("cantidadtotalderegistros: ", respuesta.headers.get("cantidadtotalderegistros"))
         this.cantidadtotalderegistros = respuesta.headers.get("cantidadtotalderegistros")
@@ -47,5 +46,13 @@ export class IndiceDeGenerosComponent {
     this.paginaActual = pageEvent.pageIndex + 1
     this.cantidadDeRegistrosAMostrar = pageEvent.pageSize
     this.obtenerTodos(this.paginaActual, this.cantidadDeRegistrosAMostrar)
+  }
+
+  borrar(genero: GeneroDto) {
+    this.servicio.genero.borrar(genero.id).subscribe({
+      next: (data) => {
+        this.obtenerTodos(this.paginaActual, this.cantidadDeRegistrosAMostrar)
+      }, error: (error) => console.log(error)
+    })
   }
 }
