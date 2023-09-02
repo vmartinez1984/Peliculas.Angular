@@ -25,8 +25,14 @@ export class CineService {
     return this.httpClient.get<CineDto>(this.url + "/" + id)
   }
 
-  obtenerTodos(): Observable<CineDto[]> {
-    return this.httpClient.get<CineDto[]>(this.url)
+  obtenerTodos(pagina: number, cantidadDeRegistrosAMostrar: number): Observable<any> {  
+    return this.httpClient.get<CineDto[]>(this.url, {
+      observe: 'response',
+      params: {
+        Pagina: pagina.toString(),
+        RegistrosPorPagina: cantidadDeRegistrosAMostrar.toString()
+      }
+    })
   }
 
   agregar(cine: CineDtoIn): Observable<any> {

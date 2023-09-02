@@ -14,13 +14,13 @@ export class CrearActorComponent {
 
   constructor(
     private servicio: ServicioService,
-    private router: Router
+    private router: Router    
   ) { }
 
   errores: string[] = []
 
   guardar(actor: ActorDtoIn) {
-    //console.log(actor)
+    console.log(actor)
     this.servicio.actor.agregar(actor).subscribe({
       next: (data) => {
         console.log(data)

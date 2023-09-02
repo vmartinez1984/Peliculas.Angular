@@ -15,8 +15,10 @@ export class EditarPeliculaComponent {
     proximosEstrenos: false,
     poster: 'https://www.enjpg.com/img/2020/spider-man-20.jpg',
     resumen: 'Cualquier cosa',
-    generos: { id: 1, nombre: 'Accion' },
-    fechaDeLanzamiento: new Date()
+    generos: [{ id: 1, nombre: 'Accion' }],
+    fechaDeLanzamiento: new Date(),
+    actores:[],
+    cines:[]
   }
 
   guardarPelicula(pelicula: PeliculaDtoIn) {

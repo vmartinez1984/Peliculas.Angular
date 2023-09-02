@@ -13,3 +13,10 @@ export interface ActorDto {
     biografia: string
     personaje?: string
 }
+
+export interface ActorPeliculaDto{
+    id:number
+    nombre: string
+    personaje:string
+    foto:string
+}

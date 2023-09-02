@@ -1,5 +1,8 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActorPeliculaDto } from 'src/app/interfaces/actor-dto-in';
+import { CineDto } from 'src/app/interfaces/cine-dto';
 import { MultipleSelector } from 'src/app/interfaces/multiple-selector';
 import { PeliculaDto, PeliculaDtoIn } from 'src/app/interfaces/pelicula-dto';
 import { ServicioService } from 'src/app/servicios/servicio.service';
@@ -18,7 +21,8 @@ export class FormularioDePeliculaComponent implements OnInit {
   generosSeleccionados: MultipleSelector[] = []
   cinesNoSeleccionados: MultipleSelector[] = []
   cinesSeleccionados: MultipleSelector[] = []
-
+  @Input() actoresSeleccionados: ActorPeliculaDto[]=[]
+  @Input()errores : string[]= []
 
   constructor(private formBuilder: FormBuilder,
     private servicio: ServicioService
@@ -31,29 +35,28 @@ export class FormularioDePeliculaComponent implements OnInit {
       fechaDeLanzamiento: '',
       poster: '',
       generoIds: '',
-      cineIds: ''
+      cineIds: '',
+      actores:''
     })
     this.obtenerGeneros()
     this.obtenerCines()
   }
 
   obtenerCines() {
-    this.servicio.cine.obtenerTodos().subscribe({
-      next: (data) => {
-        this.cinesNoSeleccionados = data.map(x => ({ llave: x.id, valor: x.nombre }))
+    this.servicio.cine.obtenerTodos(1,50).subscribe({
+      next: (data: HttpResponse<CineDto[]>) => {
+        this.cinesNoSeleccionados = data.body!.map(x => ({ llave: x.id, valor: x.nombre }))
       }
     })
   }
 
   obtenerGeneros() {
     this.servicio.genero.obtenerTodos(1,50).subscribe({
-      next: (data) => {
-        //this.generosNoSeleccionados = data.map(x => ({ llave: x.id, valor: x.nombre }))
+      next: (response: HttpResponse<CineDto[]>) => {
+        this.generosNoSeleccionados = response.body!.map(x => ({ llave: x.id, valor: x.nombre }))
       }
     })
   }
-
-
 
   ngOnInit(): void {
     console.log(this.peliculaInput)
@@ -62,10 +65,12 @@ export class FormularioDePeliculaComponent implements OnInit {
     } else {
       this.peliculaInput = {
         enCines: false,
-        generos: { id: 0, nombre: '' },
+        generos: [{ id: 0, nombre: '' }],
         poster: '',
         proximosEstrenos: false,
-        titulo: ''
+        titulo: '',
+        actores:[],
+        cines:[]
       }
     }
   }
@@ -76,6 +81,13 @@ export class FormularioDePeliculaComponent implements OnInit {
       const generoIds = this.generosSeleccionados.map(val => val.llave)
       this.formGroup.get('generoIds')?.setValue(generoIds)
       this.formGroup.get('cineIds')?.setValue(this.cinesSeleccionados.map(x => x.llave))
+      const actores = this.actoresSeleccionados.map(valor=>{
+        return {
+          id: valor.id,
+          personaje: valor.personaje
+        }
+      })
+      this.formGroup.get('actores')?.setValue(actores)
       this.peliculaEmmiter.emit(this.formGroup.value)
     }
   }

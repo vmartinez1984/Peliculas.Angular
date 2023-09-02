@@ -1,18 +1,21 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActorDto, ActorDtoIn } from 'src/app/interfaces/actor-dto-in';
+import { formatearFecha } from 'src/app/utilidades/utilidades';
 
 @Component({
   selector: 'app-formulario-actor',
   templateUrl: './formulario-actor.component.html',
   styleUrls: ['./formulario-actor.component.css']
 })
-export class FormularioActorComponent implements OnInit {
+export class FormularioActorComponent {
   formGroup: FormGroup
 
   @Output() eventEmiiter: EventEmitter<ActorDtoIn> = new EventEmitter()
   @Input() entrada?: ActorDto
   @Input() errores: string[] = []
+
+  iamgenCambiada = false
 
   constructor(
     private formBuilder: FormBuilder
@@ -32,18 +35,32 @@ export class FormularioActorComponent implements OnInit {
     this.formGroup.get('biografia')?.setValue(evento)
   }
 
-  ngOnInit(): void {
-    console.log(this.entrada)
+  ngOnChanges() {
     if (this.entrada !== undefined) {
       this.formGroup.patchValue(this.entrada)
     }
   }
 
   guardar() {
-    this.eventEmiiter.emit(this.formGroup.value)
+    //console.log(this.formGroup.value)
+    //var fecha = formatearFecha( this.formGroup.value.fechaDeNacimiento)
+    //console.log(fecha)
+    if (!this.iamgenCambiada) {
+      this.formGroup.patchValue({ 'foto': null })
+    }
+    if (this.formGroup.valid) {
+      var actor: ActorDtoIn = {
+        biografia: this.formGroup.value.biografia,
+        foto: this.formGroup.value.foto,
+        nombre: this.formGroup.value.nombre,
+        fechaDeNacimiento: this.formGroup.value.fechaDeNacimiento
+      }
+      this.eventEmiiter.emit(actor)
+    }
   }
 
   agregarImagen(file: File) {
+    this.iamgenCambiada = true
     this.formGroup.get('foto')?.setValue(file)
   }
 }

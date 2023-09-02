@@ -1,3 +1,4 @@
+<app-mostrar-errores [errores]="errores"/>
 <form [formGroup]="formGroup" (submit)="guardar()">
     <mat-form-field appearance="outline">
         <mat-label>Titulo</mat-label>
@@ -33,7 +34,7 @@
     <app-selector-multiple [noSeleccionados]="cinesNoSeleccionados" [seleccionados]="cinesSeleccionados"/>
 
     <h4>Seleccione actor</h4>
-    <app-autocompletado-de-actores/>
+    <app-autocompletado-de-actores [actoresSeleccionados]="actoresSeleccionados"/>
     <div>
         <button mat-flat-button color="primary" type="submit">Guardar</button>
         <a mat-stroked-button routerLink="">Cancelar</a>

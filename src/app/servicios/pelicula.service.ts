@@ -1,32 +1,67 @@
 import { Injectable } from '@angular/core';
-import { PeliculaDto } from '../interfaces/pelicula-dto';
+import { PeliculaDto, PeliculaDtoIn } from '../interfaces/pelicula-dto';
 import { Observable } from 'rxjs';
+import { formatearFecha } from '../utilidades/utilidades';
+import { HttpClient } from '@angular/common/http';
+import { enviroment } from 'src/enviroments/enviroments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PeliculaService {
-  
-  constructor() { }
 
-  obtenerTodo(): Observable<PeliculaDto[]>{
-    const peliculas : PeliculaDto[] = [
+  obtenerPeliculaPorId(peliculaId: number): Observable<PeliculaDto> {
+    return this.httpClient.get<PeliculaDto>(this.url + "/" + peliculaId)
+  }
+
+
+  private url = enviroment.urlApi + "peliculas"
+
+  constructor(private httpClient: HttpClient) { }
+
+  agregar(pelicula: PeliculaDtoIn): Observable<any> {
+    const formData = this.obtenerFormData(pelicula)
+    return this.httpClient.post(this.url, formData)
+  }
+
+  obtenerFormData(pelicula: PeliculaDtoIn): FormData {
+    const formData = new FormData()
+    formData.append("titulo", pelicula.titulo)
+    formData.append("resumen", pelicula.resumen!)
+    formData.append("trailer", pelicula.trailer!)
+    formData.append("enCines", pelicula.enCines.toString())
+    formData.append("fechaDeLanzamiento", formatearFecha(pelicula.fechaDeLanzamiento!))
+    if (pelicula.poster)
+      formData.append("poster", pelicula.poster)
+    formData.append("GenerosId", JSON.stringify(pelicula.generoIds))
+    formData.append("CinesId", JSON.stringify(pelicula.cineIds))
+    formData.append("Actores", JSON.stringify(pelicula.actores))
+
+    return formData
+  }
+
+  obtenerTodo(): Observable<PeliculaDto[]> {
+    const peliculas: PeliculaDto[] = [
       {
         enCines: false,
-        generos: { id: 1, nombre: "accion"},
+        generos: [{id:1,nombre:''}],
         poster: "https://www.enjpg.com/img/2020/spider-man-20.jpg",
         proximosEstrenos: true,
-        titulo: "Spider man"
+        titulo: "Spider man",
+        actores:[],
+        cines:[]
       },
       {
-        titulo: 'Moana',        
+        titulo: 'Moana',
         enCines: false,
         proximosEstrenos: false,
-        generos: {id:1, nombre: "Accion"},
-        poster: "https://image.tmdb.org/t/p/original/4yGzhOVqBliZOBZZ4rDKpQoexb.jpg"
+        generos: [{ id: 1, nombre: "Accion" }],
+        poster: "https://image.tmdb.org/t/p/original/4yGzhOVqBliZOBZZ4rDKpQoexb.jpg",
+        actores:[],
+        cines:[]
       }
     ]
-    return new Observable((observer)=>{
+    return new Observable((observer) => {
       return observer.next(peliculas)
     })
   }

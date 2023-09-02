@@ -1,28 +1,37 @@
 <h2>Cines</h2>
 
+<mat-progress-bar mode="indeterminate" *ngIf="estaCargando"></mat-progress-bar>
+<app-listado-generico [listado]="cines">
+    <ng-container contenido>
 
+        <table mat-table [dataSource]="cines" class="mat-elevation-z8">
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
 
-    <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
 
-    <!-- Nombre Column -->
-    <ng-container matColumnDef="nombre">
-        <th mat-header-cell *matHeaderCellDef> Cine </th>
-        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>
+                    <button mat-flat-button routerLink="/cines/agregar" color="primary">Agregar</button>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-flat-button routerLink="/cines/editar/{{element.id}}" color="warn">Editar</button>
+                    <button mat-flat-button
+                        [swal]="{title: 'Borrar', text: '¿Desea borrar '+element.nombre+'?', showCancelButton: true, icon: 'error', confirmButtonText:'Borrar', cancelButtonText:'Cancelar'}"
+                        (confirm)="borrar(element)" color="default">Borrar</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons [length]="cantidadtotalderegistros"
+            [pageSize]="cantidadDeRegistrosAMostrar" (page)="actualizarPaginacion($event)" />
     </ng-container>
-
-    <!-- Acciones Column -->
-    <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef>
-            <button mat-flat-button routerLink="/cines/agregar" color="primary">Agregar</button>
-        </th>
-        <td mat-cell *matCellDef="let element">
-            <button mat-flat-button routerLink="/cines/editar/{{element.id}}" color="warn">Editar</button>
-        </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+</app-listado-generico>

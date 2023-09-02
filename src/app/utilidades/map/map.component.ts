@@ -13,6 +13,9 @@ export class MapComponent {
   latitudInicial: number = 19.411180000338067
   longitudInicial: number = -99.15588140487672
 
+  
+  capas: Marker<any>[] = []
+  
   options = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
@@ -21,56 +24,26 @@ export class MapComponent {
     center: latLng(this.latitudInicial, this.longitudInicial)
   };
 
-  capas: Marker<any>[] = []
-  
-  constructor() { console.log(this.coordenadasInput) }
-
-  // ngAfterContentChecked() {
-  //   if (this.coordenadasInput.length > 0) {
-  //     console.log("AfterContentChecked", this.coordenadasInput)
-  //     let latitud = this.coordenadasInput[0].latitud
-  //     let longitud = this.coordenadasInput[0].longitud
-  //     this.latitudInicial = latitud
-  //     this.longitudInicial = longitud
-  //     this.capas = []
-  //     this.capas.push(
-  //       marker(
-  //         [latitud, longitud],
-  //         {
-  //           icon: icon(
-  //             {
-  //               iconSize: [25, 41],
-  //               iconAnchor: [13, 41],
-  //               iconUrl: 'marker-icon.png',
-  //               iconRetinaUrl: 'marker-icon-2x.png',
-  //               shadowUrl: 'assets/marker-shadow.png'
-  //             }
-  //           )
-  //         }
-  //       )
-  //     )
-  //     this.options.center.lat = latitud
-  //     this.options.center.lng = longitud
-
-  //     console.log("Center",this.options.center)
-  //   }
-  // }  
-
-  ngOnChanges(): void {
+  ngOnInit(){
+    this.capas = this.coordenadasInput.map((valor) => {
+      let marcador = marker([valor.latitud, valor.longitud]);
+      // if (valor.mensaje) {
+      //   marcador.bindPopup(valor.mensaje, { autoClose: false, autoPan: false });
+      // }
+      return marcador;
+    });
     console.log(this.coordenadasInput)
-    // this.capas = this.coordenadasInput.map(valor => marker([valor.latitud, valor.longitud],
-    //   {
-    //     icon: icon(
-    //       {
-    //         iconSize: [25, 41],
-    //         iconAnchor: [13, 41],
-    //         iconUrl: 'marker-icon.png',
-    //         iconRetinaUrl: 'marker-icon-2x.png',
-    //         shadowUrl: 'assets/marker-shadow.png'
-    //       }
-    //     )
-    //   }
-    // ))
+  }
+  
+  ngAfterViewChecked(): void {    
+    console.log(this.coordenadasInput)
+    this.capas = this.coordenadasInput.map((valor) => {
+      let marcador = marker([valor.latitud, valor.longitud]);
+      // if (valor.mensaje) {
+      //   marcador.bindPopup(valor.mensaje, { autoClose: false, autoPan: false });
+      // }
+      return marcador;
+    });
   }
 
   manejarClick(evento: LeafletMouseEvent) {

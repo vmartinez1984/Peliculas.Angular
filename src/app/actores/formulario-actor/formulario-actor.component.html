@@ -2,7 +2,7 @@
 <form [formGroup]="formGroup" (submit)="guardar()">
     <mat-form-field appearance="outline">
         <mat-label>Nombre</mat-label>
-        <input formControlName="nombre" matInput />
+        <input formControlName="nombre" matInput  autocomplete="off"/>
         <mat-error>El nombre es requerido</mat-error>
     </mat-form-field>
 
@@ -16,7 +16,7 @@
 
     <app-agregar-imagen [urlDeImagen]="entrada?.foto" (archivo)="agregarImagen($event)"/>
 
-    <app-input-markdown (textoEscrito)="textoMarkdown($event)"/>
+    <app-input-markdown (textoEscrito)="textoMarkdown($event)" [contenidoMarkDownInput]="entrada?.biografia"/>
 
     <div>
 

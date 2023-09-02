@@ -1,10 +1,10 @@
 <form class="example-form">
     <mat-form-field class="example-full-width">
         <mat-label>Actor</mat-label>
-        <input type="text" placeholder="Selecciona un actor" aria-label="Number" matInput [formControl]="myControl"
+        <input type="text" placeholder="Selecciona un actor" aria-label="Number" matInput [formControl]="control"
             [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="opcionSeleccionada($event)">
-            <mat-option *ngFor="let actor of actores" [value]="actor">
+            <mat-option *ngFor="let actor of actoresAMostrar" [value]="actor">
                 <img [src]="actor.foto" />
                 {{actor.nombre}}
             </mat-option>

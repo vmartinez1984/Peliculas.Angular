@@ -1,10 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { HttpResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTable } from '@angular/material/table';
-import { ActorDto } from 'src/app/interfaces/actor-dto-in';
+import { ActorDto, ActorPeliculaDto } from 'src/app/interfaces/actor-dto-in';
 import { ServicioService } from 'src/app/servicios/servicio.service';
 
 @Component({
@@ -13,35 +13,29 @@ import { ServicioService } from 'src/app/servicios/servicio.service';
   styleUrls: ['./autocompletado-de-actores.component.css']
 })
 export class AutocompletadoDeActoresComponent {
-  myControl = new FormControl('');
-  actores: ActorDto[] = []
-  actoresSeleccionados: ActorDto[] = []
+  control = new FormControl('');
+  @Input() actoresSeleccionados: ActorPeliculaDto[] = []
+  actoresAMostrar: ActorPeliculaDto[] = []
   columnasAMostrar: string[] = ['imagen', 'nombre', 'personaje', 'acciones']
 
   @ViewChild(MatTable) table!: MatTable<any>
-  constructor(private servicio: ServicioService) {
-    this.obtenerActores()
-  }
 
-  obtenerActores() {
-    this.servicio.actor.obtenerTodos(1,50).subscribe({
-      next: (respuesta: HttpResponse<ActorDto[]>) => {
-        this.actores = respuesta.body == null ? [] : respuesta.body        
-      },
-    })
-  }
+  constructor(private servicio: ServicioService) { }
 
   ngOnInit() {
-    this.myControl.valueChanges.subscribe(valor => {
-      this.obtenerActores()
-      this.actores = this.actores.filter(actor => actor.nombre.indexOf(valor!) !== -1)
+    this.control.valueChanges.subscribe(nombre => {
+      this.servicio.actor.obtenerPorNombre(nombre + "").subscribe({
+        next: (actores) => {
+          this.actoresAMostrar = actores
+        }
+      })
     })
   }
 
   opcionSeleccionada(event: MatAutocompleteSelectedEvent) {
     console.log(event.option.value)
     this.actoresSeleccionados.push(event.option.value)
-    this.myControl.patchValue('')
+    this.control.patchValue('')
     if (this.table) {
       this.table.renderRows()
     }

@@ -18,7 +18,7 @@ export class ServicioService {
   constructor(private httpClient: HttpClient) {
   //constructor() {
     this.genero = new GeneroService(this.httpClient)
-    this.peliculas = new PeliculaService()
+    this.peliculas = new PeliculaService(this.httpClient)
     this.cine = new CineService(this.httpClient)
     this.actor = new ActorService(this.httpClient)
   }

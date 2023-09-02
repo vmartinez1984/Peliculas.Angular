@@ -13,6 +13,7 @@ import { AgregarCineComponent } from './cines/agregar-cine/agregar-cine.componen
 import { EditarCineComponent } from './cines/editar-cine/editar-cine.component';
 import { AgregarPeliculaComponent } from './peliculas/agregar-pelicula/agregar-pelicula.component';
 import { EditarPeliculaComponent } from './peliculas/editar-pelicula/editar-pelicula.component';
+import { DetalleDePeliculaComponent } from './peliculas/detalle-de-pelicula/detalle-de-pelicula.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'peliculas/agregar', component: AgregarPeliculaComponent },
   { path: 'peliculas/editar/:id', component: EditarPeliculaComponent},
   { path: 'peliculas/buscar', component: FiltroDePeliculasComponent },
+  { path: 'peliculas/:id', component: DetalleDePeliculaComponent },
 
   { path: '**', redirectTo: '' }
 ];
