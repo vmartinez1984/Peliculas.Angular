@@ -1,27 +1,27 @@
-<app-listado-generico [listado]="peliculas">    
+<app-listado-generico [listado]="peliculas">
     <ng-container mensaje>
         <p>No hay peliculas para mostrar</p>
-    </ng-container>    
+    </ng-container>
     <ng-container contenido>
         <div class="peliculas-contenedor">
             <div *ngFor="let pelicula of peliculas; let index = index" class="pelicula-contenedor">
-                <a>
-                    <img [src]="pelicula.poster" alt="poster"/>
+                <a [routerLink]="'/peliculas/'+ pelicula.id">
+                    <img [src]="pelicula.poster" alt="poster" />
                 </a>
                 <p>
-                    <a>{{pelicula.titulo}}</a>
+                    <a [routerLink]="'/peliculas/'+ pelicula.id">{{pelicula.titulo}}</a>
                 </p>
                 <div>
 
                 </div>
-                    <button mat-flat-button color="primary" style="margin-left: 1rem;" (click)="editar(index)">Editar</button>
-                    <button mat-flat-button color="warn" style="margin-left: 1rem;" (click)="remover(index)">Remover</button>
-                <br/>
+                <button mat-flat-button color="primary" style="margin-left: 1rem;" (click)="editar(index)"
+                    [routerLink]="'/peliculas/editar/'+ pelicula.id">Editar</button>
+                <button mat-flat-button color="warn" style="margin-left: 1rem;"
+                    (click)="remover(index)">Remover</button>
+                <br />
                 Fecha de lanzamiento: <b>{{pelicula.fechaDeLanzamiento |date}}</b>
-                <br/>
-                Precio: <b>{{pelicula.precio | currency}}</b>
-                <br/>
+                <br />
             </div>
-        </div>    
+        </div>
     </ng-container>
 </app-listado-generico>

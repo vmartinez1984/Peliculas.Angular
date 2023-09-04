@@ -5,7 +5,7 @@
         <mat-error *ngIf="formGroup.invalid">{{obtnerErrorDeCampoNombre()}}</mat-error>
     </mat-form-field>
 
-    <div>
+    <div style="position: relative;">
 
         <app-map (respuesta)="colocarCoordenadas($event)" [coordenadasInput]="coordenadas" />
         
@@ -18,7 +18,7 @@
         </mat-form-field>
     </div>
 
-    <div>
+    <div style="margin-top: 350px;">
         <button mat-flat-button color="primary">Guardar</button>
         <a mat-stroked-button routerLink="/cines">Cancelar</a>
     </div>

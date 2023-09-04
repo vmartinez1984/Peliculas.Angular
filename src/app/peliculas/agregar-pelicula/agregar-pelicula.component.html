@@ -1,4 +1,7 @@
 <h2>Agregar pelicula</h2>
 
 
-<app-formulario-de-pelicula (peliculaEmmiter)="agregarPelicula($event)" [errores]="errores"/>
+<app-formulario-de-pelicula 
+    [generosNoSeleccionados]="generosNoSeleccionados"
+    [cinesNoSeleccionados]="cinesNoSeleccionados"
+    (peliculaEmmiter)="agregarPelicula($event)" [errores]="errores" />

@@ -17,12 +17,13 @@ export class FormularioDePeliculaComponent implements OnInit {
   @Input() peliculaInput!: PeliculaDto
 
   formGroup: FormGroup
-  generosNoSeleccionados: MultipleSelector[] = []
-  generosSeleccionados: MultipleSelector[] = []
-  cinesNoSeleccionados: MultipleSelector[] = []
-  cinesSeleccionados: MultipleSelector[] = []
-  @Input() actoresSeleccionados: ActorPeliculaDto[]=[]
-  @Input()errores : string[]= []
+  imagenCambiada = false
+  @Input() generosNoSeleccionados: MultipleSelector[] = []
+  @Input() generosSeleccionados: MultipleSelector[] = []
+  @Input() cinesNoSeleccionados: MultipleSelector[] = []
+  @Input() cinesSeleccionados: MultipleSelector[] = []
+  @Input() actoresSeleccionados: ActorPeliculaDto[] = []
+  @Input() errores: string[] = []
 
   constructor(private formBuilder: FormBuilder,
     private servicio: ServicioService
@@ -36,27 +37,10 @@ export class FormularioDePeliculaComponent implements OnInit {
       poster: '',
       generoIds: '',
       cineIds: '',
-      actores:''
-    })
-    this.obtenerGeneros()
-    this.obtenerCines()
-  }
-
-  obtenerCines() {
-    this.servicio.cine.obtenerTodos(1,50).subscribe({
-      next: (data: HttpResponse<CineDto[]>) => {
-        this.cinesNoSeleccionados = data.body!.map(x => ({ llave: x.id, valor: x.nombre }))
-      }
+      actores: ''
     })
   }
 
-  obtenerGeneros() {
-    this.servicio.genero.obtenerTodos(1,50).subscribe({
-      next: (response: HttpResponse<CineDto[]>) => {
-        this.generosNoSeleccionados = response.body!.map(x => ({ llave: x.id, valor: x.nombre }))
-      }
-    })
-  }
 
   ngOnInit(): void {
     console.log(this.peliculaInput)
@@ -69,8 +53,9 @@ export class FormularioDePeliculaComponent implements OnInit {
         poster: '',
         proximosEstrenos: false,
         titulo: '',
-        actores:[],
-        cines:[]
+        actores: [],
+        cines: [],
+        id: 0
       }
     }
   }
@@ -81,13 +66,15 @@ export class FormularioDePeliculaComponent implements OnInit {
       const generoIds = this.generosSeleccionados.map(val => val.llave)
       this.formGroup.get('generoIds')?.setValue(generoIds)
       this.formGroup.get('cineIds')?.setValue(this.cinesSeleccionados.map(x => x.llave))
-      const actores = this.actoresSeleccionados.map(valor=>{
+      const actores = this.actoresSeleccionados.map(valor => {
         return {
           id: valor.id,
           personaje: valor.personaje
         }
       })
       this.formGroup.get('actores')?.setValue(actores)
+      if (!this.imagenCambiada)
+        this.formGroup.patchValue({ 'poster': null })
       this.peliculaEmmiter.emit(this.formGroup.value)
     }
   }
@@ -100,5 +87,6 @@ export class FormularioDePeliculaComponent implements OnInit {
 
   colocarImagen(archivo: File) {
     this.formGroup.get('poster')?.setValue(archivo)
+    this.imagenCambiada = true
   }
 }

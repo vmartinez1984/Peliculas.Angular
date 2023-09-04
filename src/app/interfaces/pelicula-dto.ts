@@ -17,6 +17,7 @@ export interface PeliculaDtoIn {
 }
 
 export interface PeliculaDto {
+    id:number
     titulo: string
     enCines: boolean
     proximosEstrenos: boolean
@@ -27,4 +28,19 @@ export interface PeliculaDto {
     fechaDeLanzamiento?: Date
     actores: ActorDto[]
     cines: CineDto[]    
+}
+
+export interface LandingPageDto{
+    peliculasEnCines:PeliculaDto[]
+    peliculasProximosEstrenos: PeliculaDto[]
+}
+
+export interface PeliculaPutGetDto{
+    pelicula: PeliculaDto
+    generosSeleccionados : GeneroDto[]
+    generosNoSeleccionados : GeneroDto[]
+    cinesSeleccionados: CineDto[]
+    cinesNoSeleccionados: CineDto[]
+    actores: ActorPeliculaDto[]
+
 }

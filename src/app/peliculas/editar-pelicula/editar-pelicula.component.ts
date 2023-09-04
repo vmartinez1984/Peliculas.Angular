@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActorPeliculaDto } from 'src/app/interfaces/actor-dto-in';
+import { MultipleSelector } from 'src/app/interfaces/multiple-selector';
 import { PeliculaDto, PeliculaDtoIn } from 'src/app/interfaces/pelicula-dto';
+import { ServicioService } from 'src/app/servicios/servicio.service';
 
 @Component({
   selector: 'app-editar-pelicula',
@@ -7,21 +11,50 @@ import { PeliculaDto, PeliculaDtoIn } from 'src/app/interfaces/pelicula-dto';
   styleUrls: ['./editar-pelicula.component.css']
 })
 export class EditarPeliculaComponent {
+  estaCargando = false
+  pelicula!: PeliculaDto
+  generosNoSeleccionados: MultipleSelector[] = [];
+  generosSeleccionados: MultipleSelector[] = [];
+  cinesNoSeleccionados: MultipleSelector[] = [];
+  cinesSeleccionados: MultipleSelector[] = [];
+  actoresSeleccionados: ActorPeliculaDto[] = []
 
-  pelicula: PeliculaDto = {
-    titulo: "Spider man",
-    trailer: 'https://www.youtube.com/watch?v=fuLPJg2gwjQ&list=RDjO3rZsnBp8o&index=12&ab_channel=OomphVEVO',
-    enCines: false,
-    proximosEstrenos: false,
-    poster: 'https://www.enjpg.com/img/2020/spider-man-20.jpg',
-    resumen: 'Cualquier cosa',
-    generos: [{ id: 1, nombre: 'Accion' }],
-    fechaDeLanzamiento: new Date(),
-    actores:[],
-    cines:[]
+  constructor(
+    private servicio: ServicioService,
+    private activatedRouted: ActivatedRoute,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.activatedRouted.params.subscribe(params => {
+      this.servicio.peliculas.putGet(params['id']).subscribe({
+        next: (data) => {
+          console.log(data)
+          this.pelicula = data.pelicula
+          this.generosNoSeleccionados = data.generosNoSeleccionados.map(genero => {
+            return <MultipleSelector>{ llave: genero.id, valor: genero.nombre }
+          })
+          this.generosSeleccionados = data.generosSeleccionados.map(genero => {
+            return <MultipleSelector>{ llave: genero.id, valor: genero.nombre }
+          })
+          this.cinesSeleccionados = data.cinesSeleccionados.map(cine => {
+            return <MultipleSelector>{ llave: cine.id, valor: cine.nombre }
+          })
+          this.cinesNoSeleccionados = data.cinesNoSeleccionados.map(cine => {
+            return <MultipleSelector>{ llave: cine.id, valor: cine.nombre }
+          })
+          this.actoresSeleccionados = data.actores
+        }
+      })
+    })
   }
 
   guardarPelicula(pelicula: PeliculaDtoIn) {
     console.log(pelicula)
+    this.servicio.peliculas.actualizar(this.pelicula.id, pelicula).subscribe({
+      next: (data) => {
+        this.router.navigate(['/peliculas' + this.pelicula.id])
+      }
+    })
   }
 }

@@ -15,6 +15,7 @@ export class DetalleDePeliculaComponent {
   fechaDeLanzamiento!: Date
   trailerUrl!: SafeResourceUrl
   coordenadas: CoordenadasConMensajeDto[] = []
+  estaCargando= false
 
   constructor(
     private servicio: ServicioService,
@@ -29,6 +30,7 @@ export class DetalleDePeliculaComponent {
   }
 
   obtenerPeliculaPorId(peliculaId: number) {
+    this.estaCargando = true
     this.servicio.peliculas.obtenerPeliculaPorId(peliculaId).subscribe({
       next: (data) => {
         console.log(data)
@@ -38,6 +40,9 @@ export class DetalleDePeliculaComponent {
         this.coordenadas = this.pelicula.cines.map(cine => {
           return { longitud: cine.longitud, latitud: cine.latitud, mensaje: cine.nombre }
         })
+        this.estaCargando= false
+      },error:(error)=>{
+        this.estaCargando= false
       }
     })
   }

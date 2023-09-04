@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CineDtoIn } from 'src/app/interfaces/cine-dto';
-import { CoordenadasDto } from 'src/app/interfaces/coordenadas-dto';
+import { CoordenadasConMensajeDto, CoordenadasDto } from 'src/app/interfaces/coordenadas-dto';
 
 @Component({
   selector: 'app-formulario-de-cine',
@@ -13,7 +13,7 @@ export class FormularioDeCineComponent {
 
   @Output() respuesta: EventEmitter<CineDtoIn> = new EventEmitter<CineDtoIn>()
   @Input() cineIn?: CineDtoIn
-  coordenadas: CoordenadasDto[] = [];
+  coordenadas: CoordenadasConMensajeDto[] = [];
 
   constructor(private formBuilder: FormBuilder) {
     this.formGroup = this.formBuilder.group({
@@ -29,7 +29,7 @@ export class FormularioDeCineComponent {
     if (this.cineIn) {
       this.formGroup.patchValue(this.cineIn)
       this.formGroup.get('latitudYLongitud')?.setValue(this.cineIn.latitud + "," + this.cineIn.longitud)
-      this.coordenadas.push({ latitud: this.cineIn.latitud, longitud: this.cineIn.longitud })
+      this.coordenadas.push({ latitud: this.cineIn.latitud, longitud: this.cineIn.longitud, mensaje: this.cineIn.nombre })
       console.log("Formulario de cine",this.coordenadas)
     }
   }

@@ -1,4 +1,4 @@
-<div *ngIf="pelicula" >
+<div *ngIf="pelicula" style="margin-bottom: 450px;">
     <div>
         <h2>{{pelicula.titulo}} ({{fechaDeLanzamiento.getFullYear()}})</h2>
         <div style="display: flex; margin-bottom: 0.5rem;">
@@ -37,12 +37,12 @@
             </div>
         </div>
     </div>
-    <div style="padding-left: 1rem;" *ngIf="coordenadas.length > 0">
-        <app-map [coordenadasInput]="coordenadas"/>
+    <div style="padding-left: 1rem; position: relative;" *ngIf="coordenadas.length > 0">
+        <app-map [coordenadasInput]="coordenadas" [soloLectura]="true"/>
     </div>
 </div>
 <div>
-        <mat-spinner *ngIf="!pelicula"  style=" top: 50%;
+        <mat-spinner *ngIf="estaCargando"  style=" top: 50%;
         left: 50%;
         transform: translate(-50%, -50%); margin-top: 50%;"/>
 </div>
