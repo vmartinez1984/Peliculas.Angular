@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { MarkdownModule } from 'ngx-markdown';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet'
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2'
@@ -38,6 +38,14 @@ import { SelectorMultipleComponent } from './utilidades/selector-multiple/select
 import { AutocompletadoDeActoresComponent } from './actores/autocompletado-de-actores/autocompletado-de-actores.component';
 import { MostrarErroresComponent } from './utilidades/mostrar-errores/mostrar-errores.component';
 import { DetalleDePeliculaComponent } from './peliculas/detalle-de-pelicula/detalle-de-pelicula.component';
+import { AutorizadoComponent } from './seguridad/autorizado/autorizado.component';
+import { LoginComponent } from './seguridad/login/login.component';
+import { RegistroComponent } from './seguridad/registro/registro.component';
+import { FormularioAutenticacionComponent } from './seguridad/formulario-autenticacion/formulario-autenticacion.component';
+import { SeguridadInterceptorService } from './seguridad/seguridad-interceptor.service';
+import { ListaDeUsuariosComponent } from './seguridad/lista-de-usuarios/lista-de-usuarios.component';
+
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -69,21 +77,29 @@ import { DetalleDePeliculaComponent } from './peliculas/detalle-de-pelicula/deta
     SelectorMultipleComponent,
     AutocompletadoDeActoresComponent,
     MostrarErroresComponent,
-    DetalleDePeliculaComponent
+    DetalleDePeliculaComponent,
+    AutorizadoComponent,
+    LoginComponent,
+    RegistroComponent,
+    FormularioAutenticacionComponent,
+    ListaDeUsuariosComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     MaterialModule,
-    HttpClientModule, 
+    HttpClientModule,
     MarkdownModule.forRoot(),
     FormsModule,
-    LeafletModule, 
+    LeafletModule,
     SweetAlert2Module.forRoot()
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: SeguridadInterceptorService, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

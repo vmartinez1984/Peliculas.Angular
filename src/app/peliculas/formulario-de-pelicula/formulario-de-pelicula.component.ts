@@ -55,7 +55,9 @@ export class FormularioDePeliculaComponent implements OnInit {
         titulo: '',
         actores: [],
         cines: [],
-        id: 0
+        id: 0,
+        promedioVoto:0,
+        votoUsuario:0
       }
     }
   }

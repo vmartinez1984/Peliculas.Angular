@@ -14,10 +14,16 @@
                 <div>
 
                 </div>
-                <button mat-flat-button color="primary" style="margin-left: 1rem;" (click)="editar(index)"
-                    [routerLink]="'/peliculas/editar/'+ pelicula.id">Editar</button>
-                <button mat-flat-button color="warn" style="margin-left: 1rem;"
-                    (click)="remover(index)">Remover</button>
+
+                <app-autorizado [rol]="'admin'">
+                    <ng-container autorizado>
+                        <button mat-flat-button color="primary" style="margin-left: 1rem;" (click)="editar(index)"
+                            [routerLink]="'/peliculas/editar/'+ pelicula.id">Editar</button>
+                        <button mat-flat-button color="warn" style="margin-left: 1rem;"
+                            (click)="remover(index)">Remover</button>
+                    </ng-container>
+                </app-autorizado>
+
                 <br />
                 Fecha de lanzamiento: <b>{{pelicula.fechaDeLanzamiento |date}}</b>
                 <br />

@@ -61,7 +61,7 @@ export class PeliculaService {
         titulo: "Spider man",
         actores: [],
         cines: [],
-        id: 1
+        id: 1, promedioVoto: 0, votoUsuario: 0
       },
       {
         titulo: 'Moana',
@@ -70,7 +70,8 @@ export class PeliculaService {
         generos: [{ id: 1, nombre: "Accion" }],
         poster: "https://image.tmdb.org/t/p/original/4yGzhOVqBliZOBZZ4rDKpQoexb.jpg",
         actores: [],
-        cines: [], id: 2
+        cines: [], id: 2,
+        promedioVoto: 0, votoUsuario: 0
       }
     ]
     return new Observable((observer) => {

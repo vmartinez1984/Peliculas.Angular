@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CoordenadasConMensajeDto } from 'src/app/interfaces/coordenadas-dto';
 import { PeliculaDto } from 'src/app/interfaces/pelicula-dto';
 import { ServicioService } from 'src/app/servicios/servicio.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detalle-de-pelicula',
@@ -15,7 +16,7 @@ export class DetalleDePeliculaComponent {
   fechaDeLanzamiento!: Date
   trailerUrl!: SafeResourceUrl
   coordenadas: CoordenadasConMensajeDto[] = []
-  estaCargando= false
+  estaCargando = false
 
   constructor(
     private servicio: ServicioService,
@@ -26,6 +27,15 @@ export class DetalleDePeliculaComponent {
   ngOnInit() {
     this.activateRoute.params.subscribe(params => {
       this.obtenerPeliculaPorId(params['id'])
+    })
+  }
+
+  votar(data: any) {
+    console.log(data)
+    this.servicio.rating.votar(this.pelicula.id, data).subscribe({
+      next: (data) => {
+        Swal.fire("Exitoso", "Su voto ha sido registrado","success")
+      }
     })
   }
 
@@ -40,9 +50,9 @@ export class DetalleDePeliculaComponent {
         this.coordenadas = this.pelicula.cines.map(cine => {
           return { longitud: cine.longitud, latitud: cine.latitud, mensaje: cine.nombre }
         })
-        this.estaCargando= false
-      },error:(error)=>{
-        this.estaCargando= false
+        this.estaCargando = false
+      }, error: (error) => {
+        this.estaCargando = false
       }
     })
   }

@@ -8,7 +8,8 @@
                 </mat-chip>
             </mat-chip-listbox>
             <div style="margin: 0.5rem;">
-                | {{fechaDeLanzamiento.toDateString()}} | Promedio 0.0 | Tu voto: 0.0
+                | {{fechaDeLanzamiento.toDateString()}} | Promedio {{pelicula.promedioVoto}} | Tu voto:
+                <app-rating [raitingSeleccionado]="pelicula.votoUsuario"  (rated)="votar($event)"/>
             </div>
         </div>
         <div style="display: flex;">

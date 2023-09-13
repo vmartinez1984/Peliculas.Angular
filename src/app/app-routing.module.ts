@@ -14,24 +14,31 @@ import { EditarCineComponent } from './cines/editar-cine/editar-cine.component';
 import { AgregarPeliculaComponent } from './peliculas/agregar-pelicula/agregar-pelicula.component';
 import { EditarPeliculaComponent } from './peliculas/editar-pelicula/editar-pelicula.component';
 import { DetalleDePeliculaComponent } from './peliculas/detalle-de-pelicula/detalle-de-pelicula.component';
+import { EsAdminGuard } from './es-admin.guard';
+import { LoginComponent } from './seguridad/login/login.component';
+import { RegistroComponent } from './seguridad/registro/registro.component';
+import { ListaDeUsuariosComponent } from './seguridad/lista-de-usuarios/lista-de-usuarios.component';
 
 const routes: Routes = [
-  { path: '', component: LandingPageComponent },
-  { path: 'actores', component: ListaDeActoresComponent },
-  { path: 'actores/editar/:id', component: EditarActorComponent },
-  { path: 'actores/agregar', component: CrearActorComponent },
-  { path: 'cines', component: ListaDeCinesComponent},
-  { path: 'cines/agregar', component: AgregarCineComponent},
-  { path: 'cines/editar/:id', component: EditarCineComponent},
-  { path: 'generos', component: IndiceDeGenerosComponent },
-  { path: 'generos/agregar', component: AgregarGeneroComponent },
-  { path: 'generos/editar/:id', component: EditarGeneroComponent },
-  { path: 'peliculas/agregar', component: AgregarPeliculaComponent },
-  { path: 'peliculas/editar/:id', component: EditarPeliculaComponent},
-  { path: 'peliculas/buscar', component: FiltroDePeliculasComponent },
-  { path: 'peliculas/:id', component: DetalleDePeliculaComponent },
+  { path: '', component: LandingPageComponent, pathMatch: 'full' },
+  { path: 'actores', component: ListaDeActoresComponent, pathMatch: 'full' },
+  { path: 'actores/editar/:id', component: EditarActorComponent, pathMatch: 'full' },
+  { path: 'actores/agregar', component: CrearActorComponent, pathMatch: 'full' },
+  { path: 'cines', component: ListaDeCinesComponent, pathMatch: 'full' },
+  { path: 'cines/agregar', component: AgregarCineComponent, pathMatch: 'full' },
+  { path: 'cines/editar/:id', component: EditarCineComponent, pathMatch: 'full' },
+  { path: 'generos', component: IndiceDeGenerosComponent, canActivate: [EsAdminGuard] },
+  { path: 'generos/agregar', component: AgregarGeneroComponent, pathMatch: 'full' },
+  { path: 'generos/editar/:id', component: EditarGeneroComponent, pathMatch: 'full' },
+  { path: 'peliculas/agregar', component: AgregarPeliculaComponent, pathMatch: 'full' },
+  { path: 'peliculas/editar/:id', component: EditarPeliculaComponent, pathMatch: 'full' },
+  { path: 'peliculas/buscar', component: FiltroDePeliculasComponent, pathMatch: 'full' },
+  { path: 'peliculas/:id', component: DetalleDePeliculaComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, pathMatch: 'full' },
+  { path: 'registro', component: RegistroComponent, pathMatch: 'full' },
+  { path: 'usuarios', component: ListaDeUsuariosComponent, canActivate: [EsAdminGuard], pathMatch: 'full' },
 
-  { path: '**', redirectTo: '' }
+  { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
 
 @NgModule({

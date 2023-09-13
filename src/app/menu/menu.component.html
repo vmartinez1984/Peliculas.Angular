@@ -1,35 +1,63 @@
 <mat-toolbar color="primary">
-    <a mat-button>
-      <mat-icon>local_movies</mat-icon>
-      Angular Películas
+  <a mat-button routerLink="/">
+    <mat-icon>local_movies</mat-icon>
+    Angular Películas
+  </a>
+  <div>
+    <a mat-button routerLink="peliculas/buscar">
+      <mat-icon>search</mat-icon>
+      Búscar peliculas
     </a>
-    <div>
-      <a mat-button routerLink="cines">Cines</a>
-    </div>  
-    <div>
-      <a mat-button routerLink="generos">Géneros</a>
-    </div>   
-    <div>
-      <a mat-button routerLink="/actores">Actores</a>
-    </div>   
-    <div>
-      <a mat-button routerLink="peliculas/buscar">
-        <mat-icon>search</mat-icon>
-        Búscar peliculas
-      </a>
-    </div>
-    <div>
-      <a mat-button routerLink="peliculas/agregar">
-        <mat-icon></mat-icon>
-        Agregar pelicula
-      </a>
-    </div>
-    
-    <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-  </mat-toolbar>
+  </div>
+  
+  <app-autorizado [rol]="'admin'">
+    <ng-container autorizado>
+      <div>
+        <a mat-button routerLink="cines">Cines</a>
+      </div>
+      <div>
+        <a mat-button routerLink="generos">Géneros</a>
+      </div>
+      <div>
+        <a mat-button routerLink="/actores">Actores</a>
+      </div>
+
+      <div>
+        <a mat-button routerLink="peliculas/agregar">
+          <mat-icon></mat-icon>
+          Agregar pelicula
+        </a>
+      </div>
+
+      <div>
+        <a mat-button routerLink="usuarios">
+          <mat-icon></mat-icon>
+          Usuarios
+        </a>
+      </div>
+    </ng-container>
+  </app-autorizado>
+
+  <div class="espacio">
+
+  </div>
+
+  <app-autorizado>
+    <ng-container autorizado>
+      <span>Hola {{servicio.obtenerJwt('email')}}</span>
+      <a mat-button (click)="servicio.cerrarSesion()">Cerrar sesión</a>
+    </ng-container>
+    <ng-container noAutorizado>
+      <a mat-button routerLink="login">Iniciar sesión</a>
+      <a mat-button routerLink="registro">Registro</a>
+    </ng-container>
+  </app-autorizado>
+
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>share</mat-icon>
+  </button>
+</mat-toolbar>

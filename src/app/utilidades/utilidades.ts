@@ -12,6 +12,8 @@ export function parsearErroresApi(response: any): string[] {
     if (response.error) {
         if (typeof response.error === 'string') {
             resultado.push(response.error)
+        } else if (Array.isArray(response.error)) {
+            response.error.forEach((valor: any) => { resultado.push(valor.description) })
         } else {
             const mapErrores = response.error.errors
             const entradas = Object.entries(mapErrores)
@@ -33,16 +35,16 @@ export function parsearErroresApi(response: any): string[] {
 export function formatearFecha(date: Date) {
     date = new Date(date);
     const formato = new Intl.DateTimeFormat('en', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
     });
-    
+
     const [
-        {value: month},,
-        {value: day},,
-        {value: year}
+        { value: month }, ,
+        { value: day }, ,
+        { value: year }
     ] = formato.formatToParts(date);
-  
+
     return `${year}-${month}-${day}`;
 }

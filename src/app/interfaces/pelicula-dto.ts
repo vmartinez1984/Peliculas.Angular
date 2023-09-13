@@ -28,6 +28,8 @@ export interface PeliculaDto {
     fechaDeLanzamiento?: Date
     actores: ActorDto[]
     cines: CineDto[]    
+    votoUsuario: number
+    promedioVoto: number
 }
 
 export interface LandingPageDto{
@@ -42,5 +44,4 @@ export interface PeliculaPutGetDto{
     cinesSeleccionados: CineDto[]
     cinesNoSeleccionados: CineDto[]
     actores: ActorPeliculaDto[]
-
 }
